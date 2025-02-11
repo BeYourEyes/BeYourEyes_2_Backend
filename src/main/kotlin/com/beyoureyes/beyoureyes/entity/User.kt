@@ -1,4 +1,7 @@
 package com.beyoureyes.beyoureyes.entity
 
-class User {
-}
+data class User (
+    val userId : Long? = null,
+    val deviceId: String
+)
+
