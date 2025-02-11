@@ -1,4 +1,13 @@
 package com.beyoureyes.beyoureyes.service
 
-class DatabaseService {
+import com.beyoureyes.beyoureyes.mapper.UserMapper
+import jakarta.annotation.PostConstruct
+import org.springframework.stereotype.Service
+
+@Service
+class DatabaseService(private val userMapper : UserMapper) {
+    @PostConstruct
+    fun init() {
+        userMapper.createTableNotExists()
+    }
 }
