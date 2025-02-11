@@ -6,5 +6,7 @@ data class User (
     val userId : Long? = null,
     val deviceId: String,
     val lastLogin : LocalDateTime? = null
-)
+) {
+    constructor() : this(null, "", null)
+}
 

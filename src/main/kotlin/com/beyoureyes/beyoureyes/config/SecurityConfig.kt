@@ -11,10 +11,11 @@ class SecurityConfig {
     fun securityFilterChain(http: HttpSecurity) : SecurityFilterChain {
         http
             .authorizeHttpRequests { auth -> auth
-                    .requestMatchers("/", "/user/login").permitAll()
+                    .requestMatchers("/", "/user/login", "/user/verify-token").permitAll()
                 .anyRequest().authenticated()
             }
             .csrf { it.disable() }
+            .cors { }
 
         return http.build()
     }
