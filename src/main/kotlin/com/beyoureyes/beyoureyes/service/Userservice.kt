@@ -27,6 +27,10 @@ class Userservice(private val userMapper: UserMapper, private val jwtUtil: JwtUt
             newUser
         }
 
+        if (existingUser != null) {
+            userMapper.updateLastLogin(user.userId!!)
+        }
+
         return jwtUtil.generateToken(user.userId!!)
     }
 

@@ -1,10 +1,7 @@
 package com.beyoureyes.beyoureyes.mapper
 
 import com.beyoureyes.beyoureyes.entity.User
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Options
-import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.*
 
 @Mapper
 interface UserMapper {
@@ -18,4 +15,7 @@ interface UserMapper {
     @Insert("INSERT INTO user (device_id) VALUES (#{deviceId})")
     @Options(useGeneratedKeys = true, keyProperty = "userId")
     fun insertUser(user: User) : Int
+
+    @Update("UPDATE user SET last_login = NOW() WHERE user_id = #{userId}")
+    fun updateLastLogin(userId : Long)
 }
