@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Service
 
 @Service
-class Userservice(private val userMapper: UserMapper, private val jwtUtil: JwtUtil) {
+class UserService(private val userMapper: UserMapper, private val jwtUtil: JwtUtil) {
 
     fun login(deviceId : String) : String {
         val users = userMapper.findAll()
