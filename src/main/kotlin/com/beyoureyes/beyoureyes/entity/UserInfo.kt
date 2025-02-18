@@ -7,5 +7,5 @@ data class UserInfo (
     val userId : Long,
     val userBirth : LocalDateTime,
     val userGender : Int,
-    val userNockname : String
+    val userNickname : String
 )
