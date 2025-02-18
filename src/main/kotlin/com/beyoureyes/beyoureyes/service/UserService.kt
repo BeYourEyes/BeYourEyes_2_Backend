@@ -37,4 +37,8 @@ class UserService(private val userMapper: UserMapper, private val jwtUtil: JwtUt
     fun verifyToken(token : String): Boolean {
         return jwtUtil.validateToken(token)
     }
+
+    fun getUserIdToken(token : String) : Long? {
+        return jwtUtil.extractUserId(token)
+    }
 }

@@ -1,5 +1,6 @@
 package com.beyoureyes.beyoureyes.jwt
 
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import org.springframework.stereotype.Component
 import javax.crypto.SecretKey
@@ -33,8 +34,20 @@ class JwtUtil {
         }
     }
 
-    fun getUserIdFromToken(token: String): Long {
-        val claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).body
-        return claims.subject.toLong()
+    fun extractUserId(token: String): Long? {
+        return try{
+            val claims = extractClaims(token)
+            claims.subject.toLongOrNull()
+        } catch(e : Exception) {
+            null
+        }
+    }
+
+    private fun extractClaims(token : String) : Claims {
+        return Jwts.parserBuilder()
+            .setSigningKey(secretKey)
+            .build()
+            .parseClaimsJws(token)
+            .body
     }
 }
