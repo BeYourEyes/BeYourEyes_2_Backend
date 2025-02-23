@@ -3,6 +3,7 @@ package com.beyoureyes.beyoureyes.controller
 import com.beyoureyes.beyoureyes.dto.ResponseDto
 import com.beyoureyes.beyoureyes.service.UserService
 import com.beyoureyes.beyoureyes.utils.ResponseUtil
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
