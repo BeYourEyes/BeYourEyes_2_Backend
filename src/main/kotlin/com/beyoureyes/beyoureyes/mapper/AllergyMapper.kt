@@ -45,7 +45,7 @@ interface AllergyMapper {
     fun insertAllergy(allergy: Allergy) : Int
 
     @Select("""
-        SELECT * FROM Allergy WHERE user_id = #{UserId}
+        SELECT * FROM Allergy WHERE user_id = #{userId}
     """)
     fun getAllergyByUserId(userId : Long) : Allergy?
 }

@@ -17,7 +17,7 @@ interface UserInfoMapper {
             user_birth TIMESTAMP NOT NULL,
             user_gender TINYINT NOT NULL,
             user_nickname VARCHAR(255) NOT NULL,
-            CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+            CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
         )
     """)
     fun createTableIfNotExists()
