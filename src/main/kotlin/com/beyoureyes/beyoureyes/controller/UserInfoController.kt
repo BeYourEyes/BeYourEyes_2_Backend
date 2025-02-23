@@ -7,6 +7,7 @@ import com.beyoureyes.beyoureyes.service.UserInfoService
 import com.beyoureyes.beyoureyes.service.UserService
 import com.beyoureyes.beyoureyes.utils.ResponseUtil
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,22 +25,18 @@ import org.springframework.web.bind.annotation.RestController
 * */
 @RestController
 @RequestMapping("/user")
-class UserInfoController (private val userInfoService: UserInfoService, private val userService : UserService) {
+class UserInfoController(private val userInfoService: UserInfoService) {
 
     @PostMapping("/save-user")
-    fun saveUserInfo(@RequestHeader("Authorization") authHeader : String?,
-                     @RequestBody request : Map<String, Any>) : ResponseEntity<ResponseDto<Unit>> {
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.badRequest().body(ResponseUtil.error("토큰이 필요합니다.", Unit))
-        }
-
-        val token = authHeader.substring(7)
-        val userId = userService.getUserIdToken(token) ?: return ResponseEntity.status(401).body(ResponseUtil.error("유효하지 않은 토큰입니다.", Unit))
+    fun saveUserInfo(@RequestBody request: Map<String, Any>): ResponseEntity<ResponseDto<Unit>> {
+        // ✅ JWT 필터를 통해 인증된 사용자 ID 가져오기
+        val userId = SecurityContextHolder.getContext().authentication.principal as Long
 
         val userBirth = request["user_birth"] as? String ?: return ResponseEntity.badRequest().body(ResponseUtil.error("생년월일이 필요합니다.", Unit))
         val userGender = request["user_gender"] as? Int ?: return ResponseEntity.badRequest().body(ResponseUtil.error("성별이 필요합니다.", Unit))
         val userNickname = request["user_nickname"] as? String ?: return ResponseEntity.badRequest().body(ResponseUtil.error("닉네임이 필요합니다.", Unit))
 
+        // ✅ 알러지 정보 매핑
         val allergyMap = request["allergy"] as? Map<String, Boolean> ?: return ResponseEntity.badRequest().body(ResponseUtil.error("알러지 정보가 필요합니다.", Unit))
         val allergy = Allergy(
             userId = userId,
@@ -64,6 +61,7 @@ class UserInfoController (private val userInfoService: UserInfoService, private 
             chicken = allergyMap["chicken"] ?: false
         )
 
+        // ✅ 질환 정보 매핑
         val diseaseMap = request["disease"] as? Map<String, Boolean> ?: return ResponseEntity.badRequest().body(ResponseUtil.error("질환 정보가 필요합니다.", Unit))
         val disease = Disease(
             userId = userId,
@@ -80,13 +78,9 @@ class UserInfoController (private val userInfoService: UserInfoService, private 
     }
 
     @GetMapping("/user-info")
-    fun getUserInfo(@RequestHeader("Authorization") authHeader: String?) : ResponseEntity<ResponseDto<Map<String, Any?>>>{
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.badRequest().body(ResponseUtil.error("토큰이 필요합니다.", emptyMap()))
-        }
-
-        val token = authHeader.substring(7)
-        val userId = userService.getUserIdToken(token) ?: return ResponseEntity.status(401).body(ResponseUtil.error("유효하지 않은 토큰입니다.", emptyMap()))
+    fun getUserInfo(): ResponseEntity<ResponseDto<Map<String, Any?>>> {
+        // ✅ JWT 필터를 통해 인증된 사용자 ID 가져오기
+        val userId = SecurityContextHolder.getContext().authentication.principal.toString().toLong()
 
         val (userInfo, allergy, disease) = userInfoService.getUserDetails(userId)
 
@@ -94,7 +88,7 @@ class UserInfoController (private val userInfoService: UserInfoService, private 
             return ResponseEntity.status(404).body(ResponseUtil.error("사용자 정보가 없습니다.", emptyMap()))
         }
 
-        val responseData : Map<String, Any?> = mapOf(
+        val responseData: Map<String, Any?> = mapOf(
             "userInfo" to userInfo,
             "allergy" to allergy,
             "disease" to disease
