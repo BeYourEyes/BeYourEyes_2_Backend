@@ -34,4 +34,14 @@ interface DiseaseMapper {
     """
     )
     fun getDiseaseByUserId(userId: Long): Disease?
+
+    @Update("""
+        UPDATE Disease
+        SET
+             diabetes = COALESCE(#{diseaseMap[diabetes]}, diabetes),
+            hypertension = COALESCE(#{diseaseMap[hypertension]}, hypertension),
+            hyperlipidemia = COALESCE(#{diseaseMap[hyperlipidemia]}, hyperlipidemia)
+        WHERE user_id = #{userId}
+    """)
+    fun updateDisease(userId : Long, diseaseMap : Map<String, Boolean>) : Int
 }

@@ -34,4 +34,14 @@ interface UserInfoMapper {
     """)
     fun getUserInfoByUserId(userId: Long) : UserInfo?
 
+    @Update("""
+        UPDATE userInfo
+        SET
+            user_birth = COALESCE(#{userBirth}, user_birth),
+            user_gender = COALESCE(#{userGender}, user_gender),
+            user_nickname = COALESCE(#{userNickname}, user_nickname)
+        WHERE user_id = #{userId}
+    """)
+    fun updateUserInfo(userId: Long, userBirth :String?, userGender: Int?, userNickname : String?) : Int
+
 }

@@ -51,4 +51,25 @@ class UserInfoService(
         val disease = diseaseMapper.getDiseaseByUserId(userId)
         return Triple(userInfo, allergy, disease)
     }
+
+    @Transactional
+    fun updateUserInfo(
+        userId: Long,
+        userBirth: String?,
+        userGender: Int?,
+        userNickname: String?,
+        allergyMap : Map<String, Boolean>?,
+        diseaseMap : Map<String, Boolean>?
+    ) : Boolean {
+        val updated = userInfoMapper.updateUserInfo(userId, userBirth, userGender, userNickname) > 0
+
+        allergyMap?.let {
+            allergyMapper.updateAllergy(userId, it)
+        }
+        diseaseMap?.let {
+            diseaseMapper.updateDisease(userId, it)
+        }
+
+        return updated
+    }
 }

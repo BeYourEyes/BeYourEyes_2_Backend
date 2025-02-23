@@ -48,4 +48,30 @@ interface AllergyMapper {
         SELECT * FROM Allergy WHERE user_id = #{userId}
     """)
     fun getAllergyByUserId(userId : Long) : Allergy?
+
+    @Update("""
+        UPDATE Allergy
+        SET
+            buckwheat = COALESCE(#{allergyMap[buckwheat]}, buckwheat),
+            wheat = COALESCE(#{allergyMap[wheat]}, wheat),
+            soybean = COALESCE(#{allergyMap[soybean]}, soybean),
+            peanut = COALESCE(#{allergyMap[peanut]}, peanut),
+            walnut = COALESCE(#{allergyMap[walnut]}, walnut),
+            pine_nut = COALESCE(#{allergyMap[pine_nut]}, pine_nut),
+            sulfur_dioxide = COALESCE(#{allergyMap[sulfur_dioxide]}, sulfur_dioxide),
+            peach = COALESCE(#{allergyMap[peach]}, peach),
+            tomato = COALESCE(#{allergyMap[tomato]}, tomato),
+            egg = COALESCE(#{allergyMap[egg]}, egg),
+            milk = COALESCE(#{allergyMap[milk]}, milk),
+            shrimp = COALESCE(#{allergyMap[shrimp]}, shrimp),
+            mackerel = COALESCE(#{allergyMap[mackerel]}, mackerel),
+            squid = COALESCE(#{allergyMap[squid]}, squid),
+            crab = COALESCE(#{allergyMap[crab]}, crab),
+            shellfish = COALESCE(#{allergyMap[shellfish]}, shellfish),
+            pork = COALESCE(#{allergyMap[pork]}, pork),
+            beef = COALESCE(#{allergyMap[beef]}, beef),
+            chicken = COALESCE(#{allergyMap[chicken]}, chicken)
+        WHERE user_id = #{userId}
+    """)
+    fun updateAllergy(userId: Long, allergyMap: Map<String, Boolean>) : Int
 }
