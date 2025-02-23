@@ -11,7 +11,7 @@ interface AllergyMapper {
     @Update("""
         CREATE TABLE IF NOT EXISTS Allergy (
             allergy_id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
+            user_id BIGINT NOT NULL,
             buckwheat BOOLEAN DEFAULT FALSE,
             wheat BOOLEAN DEFAULT FALSE,
             soybean BOOLEAN DEFAULT FALSE,

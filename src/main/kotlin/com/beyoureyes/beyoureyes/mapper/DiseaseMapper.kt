@@ -11,7 +11,7 @@ interface DiseaseMapper {
     @Update("""
         CREATE TABLE IF NOT EXISTS Disease (
             disease_id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
+            user_id BIGINT NOT NULL,
             diabetes BOOLEAN DEFAULT FALSE,
             hypertension BOOLEAN DEFAULT FALSE,
             hyperlipidemia BOOLEAN DEFAULT FALSE,

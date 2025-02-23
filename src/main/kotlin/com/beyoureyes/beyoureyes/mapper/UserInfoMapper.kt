@@ -13,7 +13,7 @@ interface UserInfoMapper {
     @Update("""
         CREATE TABLE IF NOT EXISTS userInfo (
             user_info_id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
+            user_id BIGINT NOT NULL,
             user_birth TIMESTAMP NOT NULL,
             user_gender TINYINT NOT NULL,
             user_nickname VARCHAR(255) NOT NULL,
