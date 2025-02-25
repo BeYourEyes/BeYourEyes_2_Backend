@@ -43,6 +43,19 @@ class UserController(private val userService: UserService) {
                 )]
             ),
             ApiResponse(
+                responseCode = "400",
+                description = "디바이스 ID 빈 값",
+                content = [Content(
+                    examples = [ExampleObject(value = """
+                        {
+                          "status" : "ERROR",
+                          "message" : "device_id가 빈값입니다.",
+                          "data" : ""
+                        }
+                    """)]
+                )]
+            ),
+            ApiResponse(
                 responseCode = "500",
                 description = "서버 오류",
                 content = [Content(
