@@ -22,6 +22,7 @@ class SecurityConfig(private val jwtUtil: JwtUtil) {
             .authorizeHttpRequests {
                 it
                     .requestMatchers("/", "/user/login", "/user/verify-token").permitAll()
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .requestMatchers("/user/save-user", "/user/user-info", "/user/update").authenticated()
                     .anyRequest().permitAll()
             }
