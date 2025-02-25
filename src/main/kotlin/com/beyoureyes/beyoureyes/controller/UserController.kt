@@ -79,9 +79,6 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.ok(ResponseUtil.success("익명 로그인 처리 되었습니다.", token))
     }
 
-
-
-
     @PostMapping("/verify-token")
     fun postVerify(@RequestBody request: Map<String, String>): ResponseEntity<ResponseDto<String>> {
         val token = request["token"]
